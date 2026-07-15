@@ -19,8 +19,8 @@
 </head>
 <body>
 
-<audio id="musik" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<audio id="bgm" loop>
+  <source src="bulan-ksatria.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -41,7 +41,10 @@
   <div class="countdown" id="countdown"></div>
 
   <a href="https://maps.google.com/?q=Gedung+Serbaguna+Jakarta" target="_blank" class="btn maps">📍 Buka Google Maps</a>
-  <button onclick="document.getElementById('musik').play()" class="btn">🎵 Putar Musik</button>
+  <<button onclick="var a=document.getElementById('bgm'); a.paused ? a.play() : a.pause(); this.innerHTML = a.paused ? '🎵 Putar Musik' : '⏸️ Pause Musik'" 
+        style="padding:14px 24px; background:#27ae60; color:white; border:none; border-radius:12px; font-weight:bold; font-size:16px; margin:15px 0;">
+  🎵 Putar Musik
+  </button>
 
   <h3>Konfirmasi Kehadiran</h3>
   <input type="text" id="namaTamu" placeholder="Nama Anda">
