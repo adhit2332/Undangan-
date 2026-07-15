@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Pernikahan Adhit & Yesica</title>
+<style>
+    * { scroll-behavior: smooth; }
+  body { 
+    font-family: 'Georgia', serif; 
+    background: #0a0a0a; /* AWAL HITAM */
+    text-align: center; 
+    padding: 0 0 100px 0; 
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  /* BACKGROUND FOTO DARK GOLD */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('https://files.catbox.moe/i3kk8y.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.5) sepia(0.3) hue-rotate(25deg); /* EFEK GOLD */
+    z-index: -2;
+    opacity: 0;
+    transition: opacity 2s ease-in;
+  }
+  body.background-on::before { opacity: 1; }
+  body.background-on::after { /* OVERLAY GOLD */
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(139,69,19,0.3) 100%); 
+    z-index: -1;
+  }
+  
+  section { padding: 50px 20px; opacity: 0; transform: translateY(60px); transition: all 1.2s ease; } 
+  section.show { opacity: 1; transform: translateY(0); }
+  #rsvp { padding-bottom: 140px !important; }
+  
+  .card { 
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border: 2px solid #D4AF37; /* BORDER EMAS */
+    padding: 30px; 
+    border-radius: 25px; 
+    max-width: 500px; 
+    margin: 20px auto; 
+    box-shadow: 0 0 30px rgba(212,175,55,0.4); /* GLOW EMAS */
+  }
+  h1, h2, p { color: #D4AF37; text-shadow: 0 0 10px rgba(212,175,55,0.7); } /* TEKS EMAS */
+  h1 { font-size: 40px; }
+  img { width: 100%; border-radius: 15px; margin: 15px 0; border: 3px solid #D4AF37; }
+  input, select, textarea { padding: 10px; border-radius: 8px; border: 1px solid #D4AF37; background: rgba(0,0,0,0.5); color: #D4AF37; width: 80%; margin: 5px 0; }
+
+  .countdown { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+  .count-box { background: rgba(212,175,55,0.2); border: 1px solid #D4AF37; padding: 15px 10px; border-radius: 15px; width: 70px; }
+  .count-box .angka { font-size: 24px; font-weight: bold; color: #D4AF37; }
+  .count-box .label { font-size: 12px; color: #D4AF37; }
+
+  button { padding:14px 24px; background:linear-gradient(135deg, #D4AF37, #FFD700); color:#000; border:none; border-radius:50px; font-weight:bold; cursor:pointer; margin: 5px; box-shadow: 0 0 15px rgba(212,175,55,0.6); }
+
+  .navbar { 
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 55px;
+    background: rgba(0,0,0,0.9); border-top: 2px solid #D4AF37;
+    display: flex; justify-content: space-around; padding: 5px 0; 
+    box-shadow: 0 -2px 20px rgba(212,175,55,0.3); z-index: 999;
+  }
+  .navbar a { text-decoration: none; color: #D4AF37; font-size: 9px; text-align: center;}
+
+  #opening {
+    position: fixed; width: 100%; height: 100%;
+    background: #0a0a0a; /* HITAM */
+    display: flex; justify-content: center; align-items: center;
+    flex-direction: column; z-index: 9999;
+  }
+  #opening h1, #opening p { color: #D4AF37; }
+
+  .leaf { position: fixed; top: -50px; z-index: 1; font-size: 24px; animation: fall linear infinite; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+  .confetti { position: fixed; width: 10px; height: 10px; background: #FFD700; top: -10px; z-index: 10000; animation: confetti-fall 3s linear forwards; } /* CONFETTI EMAS */
+  @keyframes confetti-fall { to { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+</style>
+</head>
+<body>
+
+<div id="leaves"></div>
+
+<div id="opening">
+  <p>The Wedding Of</p>
+  <h1 id="namaMempelai">Adhit & Yesica</h1>
+  <p style="color:#D4AF37;">Kepada Yth: <b id="namaTamu">Tamu Undangan</b></p>
+  <button onclick="bukaUndangan()">💌 BUKA UNDANGAN</button>
+</div>
+
+<audio id="lagu" loop><source src="LINK_LAGU_MP3_LU" type="audio/mpeg"></audio>
+<button id="btnMusik" onclick="toggleMusik()" style="display:none; position:fixed; bottom:70px; right:15px; z-index:1000; background:#D4AF37; color:#000; border-radius:50%; width:45px; height:45px; font-size:18px; border:none;">🎵</button>
+
+<section id="home"><div class="card"><h1>The Wedding Of</h1><h2>Adhit & Yesica</h2><img src="https://files.catbox.moe/i3kk8y.jpg"><p>Menuju Hari Bahagia</p><div class="countdown"><div class="count-box"><div class="angka" id="hari">0</div><div class="label">Hari</div></div><div class="count-box"><div class="angka" id="jam">0</div><div class="label">Jam</div></div><div class="count-box"><div class="angka" id="menit">0</div><div class="label">Menit</div></div><div class="count-box"><div class="angka" id="detik">0</div><div class="label">Detik</div></div></div></div></section>
+
+<section id="mempelai"><div class="card"><h2>Assalamualaikum</h2><p style="color:#fff;">Dengan memohon rahmat Allah</p><h2>Adhit & Yesica</h2></div></section>
+<section id="cerita"><h2>Cerita Cinta Kami</h2></section>
+<section id="acara"><div class="card"><h2>Resepsi</h2><p style="color:#fff;"><b>Minggu, 20 Desember 2026</b></p></div></section>
+<section id="galeri"><div class="card"><h2>Galeri</h2><img src="https://files.catbox.moe/i3kk8y.jpg"></div></section>
+<section id="gift"><div class="card"><h2>Wedding Gift</h2><div style="background:rgba(212,175,55,0.2); padding:15px; border-radius:15px; color:#D4AF37;"><b>BCA</b><br>1234567890</div></div></section>
+<section id="ucapan"><div class="card"><h2>Ucapan</h2></div></section>
+<section id="rsvp"><div class="card"><h2>RSVP</h2></div></section>
+
+<nav class="navbar">
+  <a href="#home">🏠<br>Home</a> <a href="#mempelai">👰<br>Mempelai</a> <a href="#cerita">💕<br>Cerita</a>
+  <a href="#acara">📅<br>Acara</a> <a href="#galeri">🖼️<br>Galeri</a> <a href="#gift">🎁<br>Gift</a>
+  <a href="#ucapan">💬<br>Ucapan</a> <a href="#rsvp">💌<br>RSVP</a>
+</nav>
+
+<script>
+const URL_SHEET = "PASTE_URL_KAMU_DISINI";
+const NO_WA = "628123456789";
+const TANGGAL_NIKAH = "Dec 20, 2026 08:00:00";
+
+const urlParams = new URLSearchParams(window.location.search);
+document.getElementById("namaTamu").innerText = urlParams.get('to') || "Tamu Undangan";
+
+function bukaUndangan() {
+  document.getElementById("opening").style.display = "none";
+  document.getElementById("btnMusik").style.display = "block";
+  document.getElementById("lagu").play();
+  document.body.classList.add('background-on');
+  buatDaun(); buatConfetti();
+}
+
+let musikPlay = true;
+function toggleMusik() {
+  const lagu = document.getElementById("lagu");
+  const btn = document.getElementById("btnMusik");
+  if(musikPlay) { lagu.pause(); btn.innerText = "🔇"; } 
+  else { lagu.play(); btn.innerText = "🎵"; }
+  musikPlay = !musikPlay;
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+}, { threshold: 0.2 });
+document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+
+function buatDaun() {
+  const leaves = document.getElementById("leaves");
+  setInterval(() => {
+    const leaf = document.createElement("div");
+    leaf.classList.add("leaf"); leaf.innerHTML = "🍂";
+    leaf.style.left = Math.random() * 100 + "vw";
+    leaf.style.animationDuration = Math.random() * 3 + 5 + "s";
+    leaves.appendChild(leaf); setTimeout(() => leaf.remove(), 8000);
+  }, 500);
+}
+function buatConfetti() {
+  for(let i = 0; i < 100; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.animationDelay = Math.random() * 0.5 + "s";
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 3500);
+  }
+}
+
+const tanggalNikah = new Date(TANGGAL_NIKAH).getTime();
+setInterval(function() {
+  let jarak = tanggalNikah - new Date().getTime();
+  document.getElementById("hari").innerText = Math.floor(jarak / (1000 * 60 * 60 * 24));
+  document.getElementById("jam").innerText = Math.floor((jarak % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  document.getElementById("menit").innerText = Math.floor((jarak % (1000 * 60 * 60)) / (1000 * 60));
+  document.getElementById("detik").innerText = Math.floor((jarak % (1000 * 60)) / 1000);
+}, 1000);
+</script>
+</body>
+</html>
