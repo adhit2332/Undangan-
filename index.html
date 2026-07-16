@@ -100,3 +100,182 @@
 </style>
 </head>
 <body>
+
+<div id="leaves"></div>
+
+<div id="opening">
+  <p>The Wedding Of</p>
+  <h1 id="namaMempelai">Adhit & Yesica</h1>
+  <p style="color:#D4AF37;">Kepada Yth: <b id="namaTamu">Tamu Undangan</b></p>
+  <button onclick="bukaUndangan()">💌 BUKA UNDANGAN</button>
+</div>
+
+<audio id="lagu" loop><source src="LINK_LAGU_MP3_LU" type="audio/mpeg"></audio>
+<button id="btnMusik" onclick="toggleMusik()" style="display:none; position:fixed; bottom:70px; right:15px; z-index:1000; background:#D4AF37; color:#000; border-radius:50%; width:45px; height:45px; font-size:18px; border:none;">🎵</button>
+
+<section id="home"><div class="card"><h1>The Wedding Of</h1><h2>Adhit & Yesica</h2><img src="https://files.catbox.moe/i3kk8y.jpg"><p>Menuju Hari Bahagia</p><div class="countdown"><div class="count-box"><div class="angka" id="hari">0</div><div class="label">Hari</div></div><div class="count-box"><div class="angka" id="jam">0</div><div class="label">Jam</div></div><div class="count-box"><div class="angka" id="menit">0</div><div class="label">Menit</div></div><div class="count-box"><div class="angka" id="detik">0</div><div class="label">Detik</div></div></div></div></section>
+
+<section id="mempelai"><div class="card"><h2>Assalamualaikum</h2><p style="color:#fff;">Dengan memohon rahmat Allah</p><h2>Adhit & Yesica</h2></div></section>
+<section id="cerita"><h2>Cerita Cinta Kami</h2></section>
+<section id="acara"><div class="card"><h2>Resepsi</h2><p style="color:#fff;"><b>Minggu, 20 Desember 2026</b></p></div></section>
+
+<section id="lokasi">
+  <div class="card">
+    <h2>Lokasi Acara</h2>
+    <p style="color:#fff;">Gedung Graha Adhitama<br>Jl. Sudirman No.123, Jakarta</p>
+    <div class="maps-box">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521!2d106.829!3d-6.175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5d2!2sMonas!5e0!3m2!1sid!2sid!4v1234567890" 
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+    <a href="https://maps.app.goo.gl/" target="_blank" class="btn-maps">📍 BUKA DI GOOGLE MAPS</a>
+  </div>
+</section>
+
+<section id="galeri"><div class="card"><h2>Galeri</h2><img src="https://files.catbox.moe/i3kk8y.jpg"></div></section>
+<section id="gift"><div class="card"><h2>Wedding Gift</h2><div style="background:rgba(212,175,55,0.2); padding:15px; border-radius:15px; color:#D4AF37;"><b>BCA</b><br>1234567890</div></div></section>
+
+<!-- SECTION UCAPAN UDAH GUA EDIT -->
+<section id="ucapan">
+  <div class="card">
+    <h2>Beri Ucapan & Doa</h2>
+    <p style="color:#fff; font-size:14px;">Tinggalkan ucapan terbaik untuk kami ❤️</p>
+    <div class="form-ucapan">
+      <input type="text" id="namaUcapan" placeholder="Nama Anda">
+      <textarea id="pesanUcapan" placeholder="Tulis ucapan & doa..." rows="4"></textarea>
+      <button onclick="kirimUcapan()">Kirim Ucapan</button>
+    </div>
+    <div class="daftar-ucapan" id="daftarUcapan">
+      <!-- Ucapan akan muncul disini -->
+    </div>
+  </div>
+</section>
+
+<section id="rsvp">
+  <div class="card">
+    <h2>Konfirmasi Kehadiran</h2>
+    <p style="color:#fff; font-size:14px;">Mohon konfirmasi kehadiran Anda</p>
+    <div class="form-ucapan">
+      <input type="text" id="namaRSVP" placeholder="Nama Anda">
+      <select id="kehadiranRSVP">
+        <option value="">Konfirmasi Kehadiran</option>
+        <option value="Hadir">Hadir</option>
+        <option value="Tidak Hadir">Tidak Hadir</option>
+      </select>
+      <button onclick="kirimRSVP()">Kirim Konfirmasi</button>
+    </div>
+  </div>
+</section>
+
+<nav class="navbar">
+  <a href="#home">🏠<br>Home</a> 
+  <a href="#mempelai">👰<br>Mempelai</a> 
+  <a href="#cerita">💕<br>Cerita</a>
+  <a href="#acara">📅<br>Acara</a> 
+  <a href="#lokasi">📍<br>Lokasi</a>
+  <a href="#galeri">🖼️<br>Galeri</a> 
+  <a href="#gift">🎁<br>Gift</a>
+  <a href="#ucapan">💬<br>Ucapan</a> 
+  <a href="#rsvp">💌<br>RSVP</a>
+</nav>
+
+<script>
+const URL_SHEET = "PASTE_URL_KAMU_DISINI";
+const NO_WA = "628123456789"; // GANTI NO WA LU DISINI
+const TANGGAL_NIKAH = "Dec 20, 2026 08:00:00";
+
+const urlParams = new URLSearchParams(window.location.search);
+document.getElementById("namaTamu").innerText = urlParams.get('to') || "Tamu Undangan";
+
+function bukaUndangan() {
+  document.getElementById("opening").style.display = "none";
+  document.getElementById("btnMusik").style.display = "block";
+  document.getElementById("lagu").play();
+  document.body.classList.add('background-on');
+  buatDaun(); buatConfetti(); loadUcapan();
+}
+
+let musikPlay = true;
+function toggleMusik() {
+  const lagu = document.getElementById("lagu");
+  const btn = document.getElementById("btnMusik");
+  if(musikPlay) { lagu.pause(); btn.innerText = "🔇"; } 
+  else { lagu.play(); btn.innerText = "🎵"; }
+  musikPlay = !musikPlay;
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+}, { threshold: 0.2 });
+document.querySelectorAll('section').forEach(sec => observer.observe(sec));
+
+function buatDaun() {
+  const leaves = document.getElementById("leaves");
+  setInterval(() => {
+    const leaf = document.createElement("div");
+    leaf.classList.add("leaf"); leaf.innerHTML = "🍂";
+    leaf.style.left = Math.random() * 100 + "vw";
+    leaf.style.animationDuration = Math.random() * 3 + 5 + "s";
+    leaves.appendChild(leaf); setTimeout(() => leaf.remove(), 8000);
+  }, 500);
+}
+function buatConfetti() {
+  for(let i = 0; i < 100; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.animationDelay = Math.random() * 0.5 + "s";
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 3500);
+  }
+}
+
+// FUNGSI BARU KIRIM UCAPAN KE WA
+function kirimUcapan(){
+  let nama = document.getElementById('namaUcapan').value;
+  let pesan = document.getElementById('pesanUcapan').value;
+  if(nama == '' || pesan == ''){ alert('Nama dan Ucapan wajib diisi ya'); return; }
+  
+  let text = `Assalamualaikum Adhit & Yesica%0A%0ANama: ${nama}%0AUcapan: ${pesan}`;
+  window.open(`https://wa.me/${NO_WA}?text=${text}`, '_blank');
+  
+  // Simpan ke local biar muncul di web juga
+  let ucapan = JSON.parse(localStorage.getItem('ucapan')) || [];
+  ucapan.push({nama: nama, pesan: pesan});
+  localStorage.setItem('ucapan', JSON.stringify(ucapan));
+  document.getElementById('namaUcapan').value = '';
+  document.getElementById('pesanUcapan').value = '';
+  loadUcapan();
+}
+
+function loadUcapan(){
+  let ucapan = JSON.parse(localStorage.getItem('ucapan')) || [];
+  let html = '';
+  ucapan.reverse().forEach(u=>{
+    html += `<div class="item-ucapan"><b>${u.nama}</b><p style="color:#fff; margin:5px 0;">${u.pesan}</p></div>`;
+  });
+  document.getElementById('daftarUcapan').innerHTML = html;
+}
+
+// FUNGSI BARU KIRIM RSVP KE WA
+function kirimRSVP(){
+  let nama = document.getElementById('namaRSVP').value;
+  let hadir = document.getElementById('kehadiranRSVP').value;
+  if(nama == '' || hadir == ''){ alert('Mohon isi semua data'); return; }
+  
+  let text = `Konfirmasi Kehadiran%0A%0ANama: ${nama}%0AStatus: ${hadir}`;
+  window.open(`https://wa.me/${NO_WA}?text=${text}`, '_blank');
+}
+
+const tanggalNikah = new Date(TANGGAL_NIKAH).getTime();
+setInterval(function() {
+  let jarak = tanggalNikah - new Date().getTime();
+  document.getElementById("hari").innerText = Math.floor(jarak / (1000 * 60 * 60 * 24));
+  document.getElementById("jam").innerText = Math.floor((jarak % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  document.getElementById("menit").innerText = Math.floor((jarak % (1000 * 60 * 60)) / (1000 * 60));
+  document.getElementById("detik").innerText = Math.floor((jarak % (1000 * 60)) / 1000);
+}, 1000);
+</script>
+</body>
+</html>
